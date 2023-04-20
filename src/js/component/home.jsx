@@ -74,11 +74,22 @@ const Home = () => {
             {item.label}{" "}
             <i
               className="fas fa-trash-alt"
-              onClick={() =>
-                setTodos(
-                  todos.filter((item, currentIndex) => index != currentIndex)
-                )
-              }
+              onClick={async () => {
+                const newTodos = todos.filter((item, currentIndex) => index != currentIndex);
+                setTodos(newTodos);
+                await fetch(
+                  "https://assets.breatheco.de/apis/fake/todos/user/dzagar88",
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newTodos),
+                  }
+                );
+                await getTodos();
+              }}
+              
             ></i>
           </li>
         ))}
